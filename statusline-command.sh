@@ -19,7 +19,10 @@ pick_color() {
 # Build a bar of given width
 make_bar() {
     local pct=$1 width=$2
-    local filled=$((pct * width / 100)); [ "$filled" -gt "$width" ] && filled=$width
+    local filled=$((pct * width / 100))
+    # At least 1 filled block when pct > 0
+    [ "$pct" -gt 0 ] && [ "$filled" -eq 0 ] && filled=1
+    [ "$filled" -gt "$width" ] && filled=$width
     local empty=$((width - filled))
     local bar=""
     [ "$filled" -gt 0 ] && bar=$(printf "%${filled}s" | tr ' ' '█')
